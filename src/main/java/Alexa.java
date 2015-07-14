@@ -1,13 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import clojure.java.api.Clojure;
 import clojure.lang.IFn;
 
 public class Alexa {
+    interface WorkingPanel {
+        JPanel workingPanel(JFrame root, File workingDirectory);
+    }
 
-    public static JPanel workingPanel(JFrame root, File workingDirectory){
+    public static WorkingPanel workingPanel = (JFrame root, File workingDirectory) -> {
         JPanel jPanel = new JPanel();
         File[] stlFiles = workingDirectory.listFiles((dir, name) -> {
             return name.endsWith("stl");
@@ -18,7 +22,7 @@ public class Alexa {
         jPanel.add(getPickDirectoryButton(root, jPanel));
         jPanel.add(outputPanel(root, workingDirectory));
         return jPanel;
-    }
+    };
 
     public static JPanel outputPanel(JFrame root, File workingDirectory){
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -56,14 +60,21 @@ public class Alexa {
         pickInputDir.addActionListener((actionEvent) -> {
             JFileChooser chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            chooser.addActionListener((fileEvent) -> {
-                root.setContentPane(workingPanel(root, chooser.getSelectedFile()));
-                root.pack();
-                root.repaint();
-            });
+
+            chooser.addActionListener(workdirSelected(root, chooser, workingPanel));
             chooser.showOpenDialog(jPanel);
         });
         return pickInputDir;
+    }
+
+    public static ActionListener workdirSelected(JFrame root, JFileChooser chooser, WorkingPanel workingPanel) {
+        return (fileEvent) -> {
+            if (chooser.getSelectedFile() != null) {
+                root.setContentPane(workingPanel.workingPanel(root, chooser.getSelectedFile()));
+                root.pack();
+                root.repaint();
+            }
+        };
     }
 
     public static void main(String... args){

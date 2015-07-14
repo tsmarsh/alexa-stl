@@ -26,7 +26,7 @@ public class GUI {
         return jPanel;
     };
 
-    
+
     public FilePanel outputPanel = (root, workingDirectory) ->{
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton save = new JButton("Save");
@@ -62,12 +62,14 @@ public class GUI {
                                               FileCombiner combiner) {
         return (fileEvent) -> {
             File selectedFile = saver.getSelectedFile();
-            MachineSpec spec = new MachineSpec(70.0, 70.0, 70.0);
-            double buffer = 5.0;
-            combiner.combineFiles(spec, buffer, selectedFile.getAbsolutePath(), workingDirectory.getAbsolutePath());
-            root.setContentPane(messagePanel.build(root, "Success!"));
-            root.pack();
-            root.repaint();
+            if(selectedFile != null){
+                MachineSpec spec = new MachineSpec(70.0, 70.0, 70.0);
+                double buffer = 5.0;
+                combiner.combineFiles(spec, buffer, selectedFile.getAbsolutePath(), workingDirectory.getAbsolutePath());
+                root.setContentPane(messagePanel.build(root, "Success!"));
+                root.pack();
+                root.repaint();
+            }
         };
     }
 

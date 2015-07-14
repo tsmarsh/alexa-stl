@@ -86,4 +86,18 @@ public class GUITest {
         verify(root).pack();
         verify(root).repaint();
     }
+
+    @Test
+    public void shouldNotShitTheBedWhenNoSaveFileIsSelected() throws Exception{
+        File workingDir = File.createTempFile("shouldBe", "aDir");
+
+        JFrame root = mock(JFrame.class);
+        JFileChooser chooser = mock(JFileChooser.class);
+
+        MessagePanel startingPanel = mock(MessagePanel.class);
+
+        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner);
+
+        actionListener.actionPerformed(null);
+    }
 }

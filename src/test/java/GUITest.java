@@ -1,7 +1,8 @@
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import javax.swing.*;
-import javax.swing.tree.ExpandVetoException;
 import java.awt.event.ActionListener;
 import java.io.File;
 
@@ -10,14 +11,23 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AlexaTest {
+public class GUITest {
 
+    GUI gui;
+    FileCombiner combiner;
+
+    @Before
+    public void setUp() throws Exception {
+        combiner = mock(FileCombiner.class);
+        gui = new GUI(combiner);
+
+    }
 
     @Test
     public void shouldNotThrowExceptionIfNoFileSelected() throws Exception {
-        JFrame root = new JFrame();
+        JFrame root = mock(JFrame.class);
         JFileChooser chooser = mock(JFileChooser.class);
-        ActionListener subject = Alexa.workdirSelected(root, chooser, null);
+        ActionListener subject = gui.workdirSelected(root, chooser, null);
         subject.actionPerformed(null);
     }
 
@@ -30,11 +40,11 @@ public class AlexaTest {
         when(chooser.getSelectedFile()).thenReturn(fakeFile);
 
         JPanel nextPanel = mock(JPanel.class);
-        Alexa.WorkingPanel workFileChooser = mock(Alexa.WorkingPanel.class);
-        when(workFileChooser.workingPanel(root, fakeFile)).thenReturn(nextPanel);
+        FilePanel workFileChooser = mock(FilePanel.class);
+        when(workFileChooser.build(root, fakeFile)).thenReturn(nextPanel);
 
 
-        ActionListener subject = Alexa.workdirSelected(root, chooser, workFileChooser);
+        ActionListener subject = gui.workdirSelected(root, chooser, workFileChooser);
         subject.actionPerformed(null);
 
         verify(root).setContentPane(nextPanel);

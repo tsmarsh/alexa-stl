@@ -1,11 +1,15 @@
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Any;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,6 +50,37 @@ public class GUITest {
 
         ActionListener subject = gui.workdirSelected(root, chooser, workFileChooser);
         subject.actionPerformed(null);
+
+        verify(root).setContentPane(nextPanel);
+        verify(root).pack();
+        verify(root).repaint();
+    }
+
+    @Test
+    public void shouldCallTheCombiner() throws Exception{
+        File destination = File.createTempFile("test", "stl");
+        File workingDir = File.createTempFile("shouldBe", "aDir");
+
+
+        JFrame root = mock(JFrame.class);
+        JFileChooser chooser = mock(JFileChooser.class);
+        when(chooser.getSelectedFile()).thenReturn(destination);
+
+        MessagePanel startingPanel = mock(MessagePanel.class);
+
+        JPanel nextPanel = mock(JPanel.class);
+        when(startingPanel.build(eq(root), anyString())).thenReturn(nextPanel);
+
+
+        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner);
+
+        actionListener.actionPerformed(null);
+
+
+        verify(combiner).combineFiles(any(MachineSpec.class),
+                eq(5.0),
+                eq(destination.getAbsolutePath()),
+                eq(workingDir.getAbsolutePath()));
 
         verify(root).setContentPane(nextPanel);
         verify(root).pack();

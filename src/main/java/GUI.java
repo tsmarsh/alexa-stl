@@ -3,9 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-/**
- * Created by tmarsh on 7/14/15.
- */
+
 public class GUI {
 
     private FileCombiner combiner;
@@ -22,13 +20,20 @@ public class GUI {
         return jPanel;
     };
 
+    public MessagePanel messagePanel = (root, message) -> {
+        JPanel jPanel = startingPanel.build(root);
+        jPanel.add(new JLabel(message));
+        return jPanel;
+    };
+
+    
     public FilePanel outputPanel = (root, workingDirectory) ->{
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton save = new JButton("Save");
         ActionListener saveFileSelected = (actionEvent) -> {
             JFileChooser saver = new JFileChooser();
             combiner = new ClojureFileCombiner();
-            saver.addActionListener(onSaveFileSelected(root, workingDirectory, saver, startingPanel, combiner));
+            saver.addActionListener(onSaveFileSelected(root, workingDirectory, saver, messagePanel, combiner));
             saver.showSaveDialog(root);
         };
         save.addActionListener(saveFileSelected);
@@ -50,26 +55,29 @@ public class GUI {
     };
 
 
-    private ActionListener onSaveFileSelected(JFrame root, File workingDirectory, JFileChooser saver, StartingPanel startingPanel, FileCombiner combiner) {
+    ActionListener onSaveFileSelected(JFrame root,
+                                              File workingDirectory,
+                                              JFileChooser saver,
+                                              MessagePanel messagePanel,
+                                              FileCombiner combiner) {
         return (fileEvent) -> {
             File selectedFile = saver.getSelectedFile();
             MachineSpec spec = new MachineSpec(70.0, 70.0, 70.0);
             double buffer = 5.0;
             combiner.combineFiles(spec, buffer, selectedFile.getAbsolutePath(), workingDirectory.getAbsolutePath());
-            JOptionPane.showMessageDialog(root, "Success");
-            root.setContentPane(startingPanel.build(root));
+            root.setContentPane(messagePanel.build(root, "Success!"));
             root.pack();
             root.repaint();
         };
     }
 
-    private JButton getPickDirectoryButton(JFrame root, JPanel jPanel) {
+    JButton getPickDirectoryButton(JFrame root, JPanel jPanel) {
         JButton pickInputDir = new JButton("Pick Directory");
         pickInputDir.addActionListener(onPickDirectory(root, jPanel));
         return pickInputDir;
     }
 
-    private ActionListener onPickDirectory(JFrame root, JPanel jPanel) {
+    ActionListener onPickDirectory(JFrame root, JPanel jPanel) {
         return (actionEvent) -> {
             JFileChooser chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -79,7 +87,7 @@ public class GUI {
         };
     }
 
-    public ActionListener workdirSelected(JFrame root, JFileChooser chooser, FilePanel filePanel) {
+    ActionListener workdirSelected(JFrame root, JFileChooser chooser, FilePanel filePanel) {
         return (fileEvent) -> {
             if (chooser.getSelectedFile() != null) {
                 root.setContentPane(filePanel.build(root, chooser.getSelectedFile()));

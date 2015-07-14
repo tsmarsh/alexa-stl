@@ -9,8 +9,6 @@ import clojure.lang.IFn;
 public class Alexa {
 
     public static void main(String... args){
-        IFn require = Clojure.var("clojure.core", "require");
-        require.invoke(Clojure.read("stl-collector.core"));
         JFrame alexa = new JFrame("Alexa");
         GUI gui = new GUI(new ClojureFileCombiner());
         alexa.setContentPane(gui.startingPanel.build(alexa));

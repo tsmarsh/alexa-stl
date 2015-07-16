@@ -14,7 +14,7 @@ public class ClojureFileCombinerTest {
     @Test
     public void shouldCombineFiles() throws Exception {
         ClojureFileCombiner clojureFileCombiner = new ClojureFileCombiner();
-        File stl = new File(this.getClass().getResource("stls").getFile());
+        File stl = new File(this.getClass().getResource("/stls").getFile());
         File outputFile = Files.createTempDirectory("test").toFile();
 
         MachineSpec spec = new MachineSpec(30, 30, 30);

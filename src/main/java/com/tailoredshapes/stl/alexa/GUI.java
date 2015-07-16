@@ -1,8 +1,6 @@
 package com.tailoredshapes.stl.alexa;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;

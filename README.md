@@ -7,5 +7,5 @@ A little gui app that makes it easier to take multiple stl files and convert the
 
 ## To do
 
-1. Create multiple stl if the originals don't fit
-2. Previews
+1. Previews
+2. Improve UX

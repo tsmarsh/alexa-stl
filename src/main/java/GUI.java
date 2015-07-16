@@ -4,15 +4,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class GUI {
+class GUI {
 
-    private FileCombiner combiner;
+    private final FileCombiner combiner;
 
     public GUI(FileCombiner combiner) {
         this.combiner = combiner;
     }
 
-    public StartingPanel startingPanel = (root) -> {
+    public final StartingPanel startingPanel = (root) -> {
         JPanel jPanel = new JPanel();
         JButton pickInputDir = getPickDirectoryButton(root, jPanel);
 
@@ -20,14 +20,14 @@ public class GUI {
         return jPanel;
     };
 
-    public MessagePanel messagePanel = (root, message) -> {
+    private final MessagePanel messagePanel = (root, message) -> {
         JPanel jPanel = startingPanel.build(root);
         jPanel.add(new JLabel(message));
         return jPanel;
     };
 
 
-    public FilePanel outputPanel = (root, workingDirectory) ->{
+    private final FilePanel outputPanel = (root, workingDirectory) ->{
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton save = new JButton("Save");
         ActionListener saveFileSelected = (actionEvent) -> {
@@ -41,7 +41,7 @@ public class GUI {
         return jPanel;
     };
 
-    public FilePanel filePanel = (JFrame root, File workingDirectory) -> {
+    private final FilePanel filePanel = (JFrame root, File workingDirectory) -> {
         JPanel jPanel = new JPanel();
         File[] stlFiles = workingDirectory.listFiles((dir, name) -> {
             return name.endsWith("stl");
@@ -73,13 +73,13 @@ public class GUI {
         };
     }
 
-    JButton getPickDirectoryButton(JFrame root, JPanel jPanel) {
+    private JButton getPickDirectoryButton(JFrame root, JPanel jPanel) {
         JButton pickInputDir = new JButton("Pick Directory");
         pickInputDir.addActionListener(onPickDirectory(root, jPanel));
         return pickInputDir;
     }
 
-    ActionListener onPickDirectory(JFrame root, JPanel jPanel) {
+    private ActionListener onPickDirectory(JFrame root, JPanel jPanel) {
         return (actionEvent) -> {
             JFileChooser chooser = new JFileChooser();
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

@@ -1,7 +1,5 @@
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.internal.matchers.Any;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -17,8 +15,8 @@ import static org.mockito.Mockito.when;
 
 public class GUITest {
 
-    GUI gui;
-    FileCombiner combiner;
+    private GUI gui;
+    private FileCombiner combiner;
 
     @Before
     public void setUp() throws Exception {

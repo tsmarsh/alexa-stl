@@ -1,10 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import clojure.java.api.Clojure;
-import clojure.lang.IFn;
 
 public class Alexa {
 

@@ -1,3 +1,5 @@
+package com.tailoredshapes.stl.alexa;
+
 import java.io.File;
 
 import static stlcollector.Core.combine;

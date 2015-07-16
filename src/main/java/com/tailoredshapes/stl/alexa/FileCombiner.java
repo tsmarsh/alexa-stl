@@ -1,3 +1,5 @@
+package com.tailoredshapes.stl.alexa;
+
 import java.io.File;
 
 interface  FileCombiner {

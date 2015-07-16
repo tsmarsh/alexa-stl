@@ -1,3 +1,7 @@
+package com.tailoredshapes.stl.alexa;
+
+import com.tailoredshapes.stl.alexa.ClojureFileCombiner;
+import com.tailoredshapes.stl.alexa.MachineSpec;
 import org.junit.Test;
 
 import java.io.File;

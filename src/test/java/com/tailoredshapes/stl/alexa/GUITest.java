@@ -1,3 +1,6 @@
+package com.tailoredshapes.stl.alexa;
+
+import com.tailoredshapes.stl.alexa.*;
 import org.junit.Before;
 import org.junit.Test;
 

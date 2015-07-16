@@ -1,3 +1,5 @@
+package com.tailoredshapes.stl.alexa;
+
 class MachineSpec {
     final double x;
     final double y;

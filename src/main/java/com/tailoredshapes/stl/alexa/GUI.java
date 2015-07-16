@@ -1,3 +1,5 @@
+package com.tailoredshapes.stl.alexa;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -6,7 +8,7 @@ import java.io.File;
 
 class GUI {
 
-    private final FileCombiner combiner;
+    private FileCombiner combiner;
 
     public GUI(FileCombiner combiner) {
         this.combiner = combiner;

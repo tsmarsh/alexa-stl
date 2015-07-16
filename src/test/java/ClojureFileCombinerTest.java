@@ -17,7 +17,6 @@ public class ClojureFileCombinerTest {
         File stl = new File(this.getClass().getResource("stls").getFile());
         File outputFile = Files.createTempDirectory("test").toFile();
 
-        System.out.println(stl.listFiles().length);
         MachineSpec spec = new MachineSpec(30, 30, 30);
 
         clojureFileCombiner.combineFiles(spec, 5.0, stl, outputFile);

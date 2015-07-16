@@ -92,7 +92,7 @@
         <dependency>
             <groupId>stl-collector</groupId>
             <artifactId>stl-collector</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.0</version>
         </dependency>
 
         <!-- Test Dependencies -->

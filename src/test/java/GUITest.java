@@ -79,8 +79,8 @@ public class GUITest {
 
         verify(combiner).combineFiles(any(MachineSpec.class),
                 eq(5.0),
-                eq(destination.getAbsolutePath()),
-                eq(workingDir.getAbsolutePath()));
+                eq(workingDir),
+                eq(destination));
 
         verify(root).setContentPane(nextPanel);
         verify(root).pack();

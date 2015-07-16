@@ -32,7 +32,7 @@ public class GUI {
         JButton save = new JButton("Save");
         ActionListener saveFileSelected = (actionEvent) -> {
             JFileChooser saver = new JFileChooser();
-            combiner = new ClojureFileCombiner();
+            saver.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             saver.addActionListener(onSaveFileSelected(root, workingDirectory, saver, messagePanel, combiner));
             saver.showSaveDialog(root);
         };
@@ -65,7 +65,7 @@ public class GUI {
             if(selectedFile != null){
                 MachineSpec spec = new MachineSpec(70.0, 70.0, 70.0);
                 double buffer = 5.0;
-                combiner.combineFiles(spec, buffer, selectedFile.getAbsolutePath(), workingDirectory.getAbsolutePath());
+                combiner.combineFiles(spec, buffer, workingDirectory, selectedFile);
                 root.setContentPane(messagePanel.build(root, "Success!"));
                 root.pack();
                 root.repaint();

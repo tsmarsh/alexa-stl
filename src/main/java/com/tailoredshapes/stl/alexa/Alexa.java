@@ -4,13 +4,20 @@ import javax.swing.*;
 
 public class Alexa {
 
-    public static JFrame alexa;
+    public final JFrame root;
+    private final FileCombiner combiner;
 
+    public Alexa(JFrame root, FileCombiner combiner){
+        this.root = root;
+        this.combiner = combiner;
+    }
+    public void start(){
+        root.setContentPane(new GUI(combiner).startingPanel.build(root));
+        root.pack();
+        root.setVisible(true);
+    }
     public static void main(String... args){
-        alexa = new JFrame("Alexa");
-        GUI gui = new GUI(new ClojureFileCombiner());
-        alexa.setContentPane(gui.startingPanel.build(alexa));
-        alexa.pack();
-        alexa.setVisible(true);
+        new Alexa(new JFrame("Alexa STL"),
+                  new ClojureFileCombiner()).start();
     }
 }

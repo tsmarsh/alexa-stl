@@ -1,13 +1,9 @@
-import junit.framework.Assert;
 import org.junit.Test;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.attribute.FileAttribute;
 
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 public class ClojureFileCombinerTest {
 
@@ -21,9 +17,9 @@ public class ClojureFileCombinerTest {
 
         clojureFileCombiner.combineFiles(spec, 5.0, stl, outputFile);
 
-        int spaceAfter = outputFile.listFiles().length;
+        int numberOfFiles = outputFile.listFiles().length;
 
-        assertTrue(String.format("After: %d", spaceAfter), 0 < spaceAfter);
+        assertEquals(1, numberOfFiles);
 
         outputFile.delete();
     }

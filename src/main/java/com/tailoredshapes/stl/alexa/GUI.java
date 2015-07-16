@@ -1,17 +1,24 @@
 package com.tailoredshapes.stl.alexa;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 class GUI {
 
     private FileCombiner combiner;
+    private MachineSpec spec;
 
-    public GUI(FileCombiner combiner) {
+    public GUI(FileCombiner combiner, MachineSpec spec) {
         this.combiner = combiner;
+        this.spec = spec;
     }
 
     public final StartingPanel startingPanel = (root) -> {
@@ -28,10 +35,56 @@ class GUI {
         return jPanel;
     };
 
+    private final MachinePanel machinePanel = (root, spec) -> {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+        DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+        decimalFormat.setGroupingUsed(false);
+
+        JPanel jPanel = new JPanel();
+        JLabel xLabel = new JLabel("width");
+        JLabel yLabel = new JLabel("depth");
+        JLabel zLabel = new JLabel("height");
+
+        jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JTextField xTextField = new JFormattedTextField(decimalFormat);
+        xTextField.setText(String.valueOf(spec.x));
+        JTextField yTextField = new JFormattedTextField(decimalFormat);
+        yTextField.setText(String.valueOf(spec.y));
+        JTextField zTextField = new JFormattedTextField(decimalFormat);
+        zTextField.setText(String.valueOf(spec.z));
+
+        xTextField.addActionListener((e) -> {
+            JTextField field = (JTextField) e.getSource();
+            spec.x = Double.parseDouble(field.getText());
+        });
+
+        yTextField.addActionListener((e) -> {
+            JTextField field = (JTextField) e.getSource();
+            spec.y = Double.parseDouble(field.getText());
+        });
+
+        zTextField.addActionListener((e) -> {
+            JTextField field = (JTextField) e.getSource();
+            spec.z = Double.parseDouble(field.getText());
+        });
+
+        jPanel.add(xLabel);
+        jPanel.add(xTextField);
+        jPanel.add(yLabel);
+        jPanel.add(yTextField);
+        jPanel.add(zLabel);
+        jPanel.add(zTextField);
+
+        return jPanel;
+    };
 
     private final FilePanel outputPanel = (root, workingDirectory) ->{
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        jPanel.add(machinePanel.build(root, spec));
+
         JButton save = new JButton("Save");
+
         ActionListener saveFileSelected = (actionEvent) -> {
             JFileChooser saver = new JFileChooser();
             saver.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -65,7 +118,6 @@ class GUI {
         return (fileEvent) -> {
             File selectedFile = saver.getSelectedFile();
             if(selectedFile != null){
-                MachineSpec spec = new MachineSpec(70.0, 70.0, 70.0);
                 double buffer = 5.0;
                 combiner.combineFiles(spec, buffer, workingDirectory, selectedFile);
                 root.setContentPane(messagePanel.build(root, "Success!"));

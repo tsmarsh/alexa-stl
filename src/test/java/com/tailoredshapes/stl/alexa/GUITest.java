@@ -24,7 +24,7 @@ public class GUITest {
     @Before
     public void setUp() throws Exception {
         combiner = mock(FileCombiner.class);
-        gui = new GUI(combiner);
+        gui = new GUI(combiner, new MachineSpec(70.0, 70.0, 70.0));
 
     }
 

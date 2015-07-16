@@ -1,9 +1,9 @@
 package com.tailoredshapes.stl.alexa;
 
 class MachineSpec {
-    final double x;
-    final double y;
-    final double z;
+    double x;
+    double y;
+    double z;
 
     public MachineSpec(double x, double y, double z) {
         this.x = x;

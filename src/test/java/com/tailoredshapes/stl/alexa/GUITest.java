@@ -1,6 +1,5 @@
 package com.tailoredshapes.stl.alexa;
 
-import com.tailoredshapes.stl.alexa.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +60,7 @@ public class GUITest {
     public void shouldCallTheCombiner() throws Exception{
         File destination = File.createTempFile("test", "stl");
         File workingDir = File.createTempFile("shouldBe", "aDir");
+        JButton save = mock(JButton.class);
 
 
         JFrame root = mock(JFrame.class);
@@ -73,7 +73,7 @@ public class GUITest {
         when(startingPanel.build(eq(root), anyString())).thenReturn(nextPanel);
 
 
-        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner);
+        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner, save);
 
         actionListener.actionPerformed(null);
 
@@ -91,13 +91,14 @@ public class GUITest {
     @Test
     public void shouldNotShitTheBedWhenNoSaveFileIsSelected() throws Exception{
         File workingDir = File.createTempFile("shouldBe", "aDir");
+        JButton save = mock(JButton.class);
 
         JFrame root = mock(JFrame.class);
         JFileChooser chooser = mock(JFileChooser.class);
 
         MessagePanel startingPanel = mock(MessagePanel.class);
 
-        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner);
+        ActionListener actionListener = gui.onSaveFileSelected(root, workingDir, chooser, startingPanel, combiner, save);
 
         actionListener.actionPerformed(null);
     }

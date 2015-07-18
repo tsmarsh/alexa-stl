@@ -22,7 +22,7 @@ class GUI {
     public final StartingPanel startingPanel = (root) -> {
         JPanel jPanel = new JPanel();
         JButton pickInputDir = getPickDirectoryButton(root, jPanel);
-
+        pickInputDir.setToolTipText("Select a directory with the stls you would like to combine");
         jPanel.add(pickInputDir);
         return jPanel;
     };
@@ -39,9 +39,13 @@ class GUI {
         decimalFormat.setGroupingUsed(false);
 
         JPanel jPanel = new JPanel();
-        JLabel xLabel = new JLabel("width");
-        JLabel yLabel = new JLabel("depth");
-        JLabel zLabel = new JLabel("height");
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+        JLabel label = new JLabel("Machine Dimensions");
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+
+        JLabel xLabel = new JLabel("width:");
+        JLabel yLabel = new JLabel("depth:");
+        JLabel zLabel = new JLabel("height:");
 
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JTextField xTextField = new JFormattedTextField(decimalFormat);
@@ -66,12 +70,16 @@ class GUI {
             spec.z = Double.parseDouble(field.getText());
         });
 
-        jPanel.add(xLabel);
-        jPanel.add(xTextField);
-        jPanel.add(yLabel);
-        jPanel.add(yTextField);
-        jPanel.add(zLabel);
-        jPanel.add(zTextField);
+        JPanel inputPanel = new JPanel();
+        jPanel.setToolTipText("Enter the dimensions of your target printer");
+        jPanel.add(label);
+        inputPanel.add(xLabel);
+        inputPanel.add(xTextField);
+        inputPanel.add(yLabel);
+        inputPanel.add(yTextField);
+        inputPanel.add(zLabel);
+        inputPanel.add(zTextField);
+        jPanel.add(inputPanel);
 
         return jPanel;
     };
@@ -84,9 +92,10 @@ class GUI {
         JButton save = new JButton("Save");
 
         ActionListener saveFileSelected = (actionEvent) -> {
+            save.setEnabled(false);
             JFileChooser saver = new JFileChooser();
             saver.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            saver.addActionListener(onSaveFileSelected(root, workingDirectory, saver, messagePanel, combiner));
+            saver.addActionListener(onSaveFileSelected(root, workingDirectory, saver, messagePanel, combiner, save));
             saver.showSaveDialog(root);
         };
         save.addActionListener(saveFileSelected);
@@ -96,31 +105,39 @@ class GUI {
 
     private final FilePanel filePanel = (JFrame root, File workingDirectory) -> {
         JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+        JPanel inputPanel = new JPanel();
         File[] stlFiles = workingDirectory.listFiles((dir, name) -> {
             return name.endsWith("stl");
         });
         JList jList = new JList<>(stlFiles);
 
-        jPanel.add(jList);
-        jPanel.add(getPickDirectoryButton(root, jPanel));
+        inputPanel.add(jList);
+        inputPanel.add(getPickDirectoryButton(root, jPanel));
+        jPanel.add(inputPanel);
         jPanel.add(outputPanel.build(root, workingDirectory));
         return jPanel;
     };
 
 
     ActionListener onSaveFileSelected(JFrame root,
-                                              File workingDirectory,
-                                              JFileChooser saver,
-                                              MessagePanel messagePanel,
-                                              FileCombiner combiner) {
+                                      File workingDirectory,
+                                      JFileChooser saver,
+                                      MessagePanel messagePanel,
+                                      FileCombiner combiner, JButton save) {
         return (fileEvent) -> {
             File selectedFile = saver.getSelectedFile();
-            if(selectedFile != null){
+            if(selectedFile != null && selectedFile.exists()){
                 double buffer = 5.0;
-                combiner.combineFiles(spec, buffer, workingDirectory, selectedFile);
-                root.setContentPane(messagePanel.build(root, "Success!"));
-                root.pack();
-                root.repaint();
+
+                try{
+                    combiner.combineFiles(spec, buffer, workingDirectory, selectedFile);
+                    root.setContentPane(messagePanel.build(root, "Success!"));
+                    root.pack();
+                    root.repaint();
+                } finally {
+                    save.setEnabled(true);
+                }
             }
         };
     }
@@ -143,7 +160,7 @@ class GUI {
 
     ActionListener workdirSelected(JFrame root, JFileChooser chooser, FilePanel filePanel) {
         return (fileEvent) -> {
-            if (chooser.getSelectedFile() != null) {
+            if (chooser.getSelectedFile() != null && chooser.getSelectedFile().exists()) {
                 root.setContentPane(filePanel.build(root, chooser.getSelectedFile()));
                 root.pack();
                 root.repaint();

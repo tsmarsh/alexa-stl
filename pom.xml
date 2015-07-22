@@ -90,9 +90,9 @@
             <version>1.7.0</version>
         </dependency>
         <dependency>
-            <groupId>stl-collector</groupId>
+            <groupId>tsmarsh</groupId>
             <artifactId>stl-collector</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.2</version>
         </dependency>
 
         <!-- Test Dependencies -->

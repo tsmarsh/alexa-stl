@@ -10,7 +10,7 @@
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>alexa</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     
     <build>
         <plugins>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>tsmarsh</groupId>
             <artifactId>stl-collector</artifactId>
-            <version>0.2.2</version>
+            <version>0.3.0</version>
         </dependency>
 
         <!-- Test Dependencies -->
@@ -104,7 +104,7 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <version>1.10.19</version>
         </dependency>
     </dependencies>

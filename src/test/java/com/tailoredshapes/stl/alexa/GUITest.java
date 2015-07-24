@@ -6,6 +6,8 @@ import org.junit.Test;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileAttribute;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -38,7 +40,7 @@ public class GUITest {
     @Test
     public void shouldUpdateRootFrameIfAFileIsSelected() throws Exception {
         JFrame root = mock(JFrame.class);
-        File fakeFile = new File("");
+        File fakeFile = Files.createTempDirectory("test").toFile();
 
         JFileChooser chooser = mock(JFileChooser.class);
         when(chooser.getSelectedFile()).thenReturn(fakeFile);
@@ -54,6 +56,8 @@ public class GUITest {
         verify(root).setContentPane(nextPanel);
         verify(root).pack();
         verify(root).repaint();
+
+        fakeFile.delete();
     }
 
     @Test

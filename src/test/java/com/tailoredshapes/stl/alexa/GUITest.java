@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.attribute.FileAttribute;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;

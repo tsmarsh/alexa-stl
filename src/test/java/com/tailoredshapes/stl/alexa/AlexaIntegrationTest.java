@@ -1,17 +1,14 @@
 package com.tailoredshapes.stl.alexa;
 
 import org.uispec4j.Button;
-import org.uispec4j.Trigger;
 import org.uispec4j.UISpecTestCase;
 import org.uispec4j.Window;
 import org.uispec4j.interception.FileChooserHandler;
 import org.uispec4j.interception.MainClassAdapter;
-import org.uispec4j.interception.WindowHandler;
 import org.uispec4j.interception.WindowInterceptor;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class AlexaIntegrationTest extends UISpecTestCase{
     @Override

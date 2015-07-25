@@ -1,12 +1,9 @@
 package com.tailoredshapes.stl.alexa;
 
 import org.junit.Test;
-import org.mockito.internal.matchers.Any;
 
 import javax.swing.*;
-import java.io.File;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

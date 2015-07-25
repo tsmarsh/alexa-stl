@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Alexa {
 
-    public final JFrame root;
+    private final JFrame root;
     private final FileCombiner combiner;
     private final MachineSpec spec;
 

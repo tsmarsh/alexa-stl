@@ -49,11 +49,14 @@ class GUI {
 
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         JTextField xTextField = new JFormattedTextField(decimalFormat);
+        xTextField.setName("xValue");
         xTextField.setText(String.valueOf(spec.x));
         JTextField yTextField = new JFormattedTextField(decimalFormat);
         yTextField.setText(String.valueOf(spec.y));
+        yTextField.setName("yValue");
         JTextField zTextField = new JFormattedTextField(decimalFormat);
         zTextField.setText(String.valueOf(spec.z));
+        zTextField.setName("zValue");
 
         xTextField.addActionListener((e) -> {
             JTextField field = (JTextField) e.getSource();

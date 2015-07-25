@@ -1,5 +1,5 @@
 language: java
-script: mvn test -Djava.awt.headless=false -Dawt.toolkit=net.java.openjdk.cacio.ctc.CTCToolkit -Djava.awt.graphicsenv=net.java.openjdk.cacio.ctc.CTCGraphicsEnvironment
+script: mvn install -Djava.awt.headless=false -Dawt.toolkit=net.java.openjdk.cacio.ctc.CTCToolkit -Djava.awt.graphicsenv=net.java.openjdk.cacio.ctc.CTCGraphicsEnvironment
 jdk:
   - oraclejdk8
 after_success:
